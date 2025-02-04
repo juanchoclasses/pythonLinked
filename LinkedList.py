@@ -9,6 +9,37 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
+    def map(self, func):
+        current = self.head
+        new_ll = LinkedList()
+
+        while current:
+            new_ll.insert(func(current.data))
+            current = current.next
+
+        return new_ll
+
+    def filter(self, func):
+        current = self.head
+        new_ll = LinkedList()
+
+        while current:
+            if func(current.data):
+                new_ll.insert(current.data)
+            current = current.next
+
+        return new_ll
+
+    def reduce(self, func, initial):
+        current = self.head
+        result = initial
+
+        while current:
+            result = func(result, current.data)
+            current = current.next
+
+        return result
+
     def insert(self, data):
         if self.head is None:
             self.head = Node(data)
@@ -70,3 +101,14 @@ if __name__ == '__main__':
     ll.display()
     ll.delete(40)
     ll.display()
+
+    ll = LinkedList()
+    ll.insert(10)
+    ll.insert(20)
+    ll.insert(30)
+    ll.insert(40)
+    ll.insert(50)
+
+    ll.map(lambda x: x * 2).display()
+    ll.filter(lambda x: x % 4 == 0).display()
+    print(ll.reduce(lambda x, y: x + y, 0))
